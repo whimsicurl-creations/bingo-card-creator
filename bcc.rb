@@ -1,3 +1,5 @@
+require "prawn"
+
 b_col = (1..15).to_a.sample(5)
 i_col = (16..30).to_a.sample(5)
 n_col = (31..45).to_a.sample(4)
@@ -30,8 +32,22 @@ BINGO
 
 puts bingo_card
 
-puts b_col.inspect
-puts i_col.inspect
-puts n_col.inspect
-puts g_col.inspect
-puts o_col.inspect
+#puts b_col.inspect
+#puts i_col.inspect
+#puts n_col.inspect
+#puts g_col.inspect
+#puts o_col.inspect
+
+header = ["B", "I", "N", "G", "O"]
+
+Prawn::Document.generate("bingo.pdf") do
+    define_grid(columns: 5, rows: 6)
+
+    header.each_with_index do |char, i|
+        grid(0, i).bounding_box do
+            stroke_bounds
+            text char, align: :center, valign: :center, size: 50, style: :bold
+        end
+    end
+    
+end
